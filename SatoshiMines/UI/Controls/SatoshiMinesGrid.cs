@@ -48,7 +48,7 @@ namespace SatoshiMines.UI.Controls
 
         private void InvalidateTiles()
         {
-            var length = Height/5;
+            var length = Height / 5;
 
             var mainIndex = 0;
             for (var i = 0; i < 5; i++)
