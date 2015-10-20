@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SatoshiMines.Core.Models.Enums;
 using SatoshiMines.Core.Providers;
@@ -35,7 +36,12 @@ namespace SatoshiMines.UI.Forms
         private async void smgMain_OnStartClicked(object sender, EventArgs e)
         {
             if (cbPlayerHash.Checked && !_currentPlayer.Custom)
-                _currentPlayer = await _provider.CreatePlayer(tbPlayerHash.Text);
+            {
+                if (Regex.IsMatch(tbPlayerHash.Text, "^[a-zA-Z0-9]{40}$"))
+                    _currentPlayer = await _provider.CreatePlayer(tbPlayerHash.Text);
+                else
+                    MessageBox.Show(@"Please enter a valid player hash to play.");
+            }                                                                     
             else if (_currentPlayer == null)
                 _currentPlayer = await _provider.CreatePlayer();
 

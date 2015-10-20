@@ -55,7 +55,7 @@ namespace SatoshiMines.UI.Controls
             {
                 for (var j = 0; j < 5; j++)
                 {
-                    _tiles[mainIndex].Rectangle = new Rectangle(j*length, i*length, length - 2, length - 2);
+                    _tiles[mainIndex].Rectangle = new Rectangle(j * length, i * length, length - 2, length - 2);
                     mainIndex++;
                 }
             }
