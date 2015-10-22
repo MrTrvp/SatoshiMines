@@ -14,6 +14,12 @@ namespace SatoshiMines.Core.Models
         [DataMember(Name = "outcome")]
         public string Outcome { get; set; }
 
+        [DataMember(Name = "bombs")]
+        public string Bombs { get; set; }
+
+        [DataMember(Name = "random_string")]
+        public string RandomString { get; set; }
+
         [DataMember(Name = "stake")]
         public double Stake { get; set; }
 
@@ -26,4 +32,4 @@ namespace SatoshiMines.Core.Models
         [DataMember(Name = "change")]
         public double Change { get; set; }
     }
-}               
+}                                                                                            

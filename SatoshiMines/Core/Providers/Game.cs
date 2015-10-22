@@ -35,5 +35,20 @@ namespace SatoshiMines.Core.Providers
             var content = await response.Content.ReadAsStringAsync();
             return JsonHelper.Deserialize<GuessResponse>(content);
         }
+
+        public async Task<CashoutResponse> Cashout()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, "/action/cashout.php")
+            {
+                Content = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    {"game_hash", GameResponse.GameHash}, 
+                })
+            };             
+
+            var response = await _client.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonHelper.Deserialize<CashoutResponse>(content);
+        }
     }
 }

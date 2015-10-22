@@ -2,9 +2,11 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SatoshiMines.Core.Models;
 using SatoshiMines.Core.Models.Enums;
 using SatoshiMines.UI.Models;
 using SatoshiMines.UI.Models.Enums;
+using Timer = System.Timers.Timer;
 
 namespace SatoshiMines.UI.Controls
 {
@@ -13,6 +15,7 @@ namespace SatoshiMines.UI.Controls
         public delegate void OnGridClickedHandler(Guess guess); 
         public event OnGridClickedHandler OnGridClicked;    
         public event EventHandler OnStartClicked;
+        public event EventHandler OnCashoutClicked;
 
         private bool _gameStarted; 
         public bool GameStarted
@@ -25,27 +28,39 @@ namespace SatoshiMines.UI.Controls
             }
         }
 
-        private readonly GuessTile[] _tiles;      
+        private readonly GuessTile[] _tiles;
+        private readonly Timer _timer;
         private Rectangle _startRectangle;
+        private Rectangle _cashOutRectangle;
 
         public SatoshiMinesGrid()
         {
+            _timer = new Timer { Interval = 5000 };
+            _timer.Elapsed += delegate
+            {
+                ResetTiles();
+                GameStarted = false;
+               
+                _timer.Stop();
+            };
+
             _tiles = Enum.GetValues(typeof(Guess)).Cast<Guess>()
                 .Select(g => new GuessTile(g)).ToArray();
 
             DoubleBuffered = true;
         }
 
-        public void UpdateMine(Guess guess, bool isMine)
+        public void UpdateMine(Guess guess, GuessResponse response)
         {
             var tile = _tiles.FirstOrDefault(t => t.Guess == guess);
-            if (tile != null)
-                tile.Type = isMine ? TileType.Mine : TileType.Money;
+            if (tile != null && !response.Outcome.Equals("bomb"))
+            {
+                tile.Type = TileType.Money;
+                Invalidate();
+            }    
 
-            if (isMine)
-                _gameStarted = false;
-
-            Invalidate();
+            if (!string.IsNullOrWhiteSpace(response.Bombs))
+                ShowHiddenMines(response.Bombs);
         }
 
         private void InvalidateTiles()
@@ -63,6 +78,12 @@ namespace SatoshiMines.UI.Controls
             }
 
             Invalidate();
+        }
+
+        private void ResetTiles()
+        {
+            foreach (var tile in _tiles)
+                tile.Type = TileType.Unclicked;
         }
 
         private static Brush BrushFromTile(GuessTile tile)
@@ -116,15 +137,24 @@ namespace SatoshiMines.UI.Controls
                         g.FillRectangle(tileFillBrush, tile.Rectangle);
 
                     g.DrawString(((byte) tile.Guess).ToString(), Font, Brushes.White, tile.Rectangle, format);
-                }
+                }    
 
-                if (!_gameStarted)
+                using (var font = new Font("Arial", 12f, FontStyle.Bold))
                 {
-                    _startRectangle = new Rectangle((Width - 240) / 2, Height - 60, 240, 60);
-                    g.FillRectangle(Brushes.MediumSeaGreen, _startRectangle);
+                    if (!_gameStarted)
+                    {
+                        _startRectangle = new Rectangle((Width - 240) / 2, Height - 60, 240, 60);
 
-                    using (var font = new Font("Arial", 12f, FontStyle.Bold))
+                        g.FillRectangle(Brushes.MediumSeaGreen, _startRectangle);
                         g.DrawString("START", font, Brushes.White, _startRectangle, format);
+                    }
+                    else
+                    {
+                        _cashOutRectangle = new Rectangle((Width - 140) / 2, Height - 20, 140, 20);
+
+                        g.FillRectangle(Brushes.Gold, _cashOutRectangle);
+                        g.DrawString("CASHOUT", font, Brushes.White, _cashOutRectangle, format);
+                    }
                 }
             }
 
@@ -136,11 +166,17 @@ namespace SatoshiMines.UI.Controls
         {
             if (!_gameStarted && _startRectangle.Contains(e.Location))
             {
-                foreach (var tile in _tiles)
-                    tile.Type = TileType.Unclicked;
+                ResetTiles();
 
                 GameStarted = true;
                 OnStartClicked?.Invoke(this, null);
+            }
+            else if (_gameStarted && _cashOutRectangle.Contains(e.Location))
+            {
+                ResetTiles();
+
+                GameStarted = false;
+                OnCashoutClicked?.Invoke(this, null);
             }
             else
             {
@@ -163,6 +199,21 @@ namespace SatoshiMines.UI.Controls
             }
 
             base.OnMouseMove(e);
+        }
+
+        public void ShowHiddenMines(string mines)
+        {                             
+            foreach (var tile in _tiles)
+            {
+                if (mines.Contains(((int)tile.Guess).ToString()))
+                    tile.Type = TileType.Mine;
+                else
+                    tile.Type = TileType.Money;
+            }
+
+            Invalidate();
+
+            _timer.Start();
         }
     }
 }

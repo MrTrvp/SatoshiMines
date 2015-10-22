@@ -27,8 +27,8 @@ namespace SatoshiMines.UI.Forms
                 return;
 
             var response = await _currentGame.TakeGuess(guess);
-            if (response.Status == "success")
-                smgMain.UpdateMine(guess, response.Outcome.Equals("bomb"));
+            if (response.Status == "success")                 
+                smgMain.UpdateMine(guess, response);
             else
                 MessageBox.Show(response.Message);
         }
@@ -67,6 +67,13 @@ namespace SatoshiMines.UI.Forms
         private void cbPlayerHash_CheckedChanged(object sender, EventArgs e)
         {
             tbPlayerHash.Enabled = cbPlayerHash.Checked;
+        }
+          
+        private async void smgMain_OnCashoutClicked(object sender, EventArgs e)
+        {
+            var response = await _currentGame.Cashout();
+            if (response.Status == "success")
+                smgMain.ShowHiddenMines(response.Mines);
         }
     }
 }

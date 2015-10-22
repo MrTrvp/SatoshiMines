@@ -17,7 +17,7 @@
             {
                 _provider.Dispose();
                 components.Dispose();
-            }                        
+            }
 
             base.Dispose(disposing);
         }
@@ -36,8 +36,8 @@
             this.lbBits = new System.Windows.Forms.Label();
             this.nudBits = new System.Windows.Forms.NumericUpDown();
             this.pOptions = new System.Windows.Forms.Panel();
-            this.tbPlayerHash = new System.Windows.Forms.TextBox();
             this.cbPlayerHash = new System.Windows.Forms.CheckBox();
+            this.tbPlayerHash = new System.Windows.Forms.TextBox();
             this.smgMain = new SatoshiMines.UI.Controls.SatoshiMinesGrid();
             ((System.ComponentModel.ISupportInitialize)(this.nudBits)).BeginInit();
             this.pOptions.SuspendLayout();
@@ -110,14 +110,6 @@
             this.pOptions.Size = new System.Drawing.Size(216, 344);
             this.pOptions.TabIndex = 6;
             // 
-            // tbPlayerHash
-            // 
-            this.tbPlayerHash.Enabled = false;
-            this.tbPlayerHash.Location = new System.Drawing.Point(21, 121);
-            this.tbPlayerHash.Name = "tbPlayerHash";
-            this.tbPlayerHash.Size = new System.Drawing.Size(178, 21);
-            this.tbPlayerHash.TabIndex = 7;
-            // 
             // cbPlayerHash
             // 
             this.cbPlayerHash.AutoSize = true;
@@ -129,6 +121,14 @@
             this.cbPlayerHash.UseVisualStyleBackColor = true;
             this.cbPlayerHash.CheckedChanged += new System.EventHandler(this.cbPlayerHash_CheckedChanged);
             // 
+            // tbPlayerHash
+            // 
+            this.tbPlayerHash.Enabled = false;
+            this.tbPlayerHash.Location = new System.Drawing.Point(21, 121);
+            this.tbPlayerHash.Name = "tbPlayerHash";
+            this.tbPlayerHash.Size = new System.Drawing.Size(178, 21);
+            this.tbPlayerHash.TabIndex = 7;
+            // 
             // smgMain
             // 
             this.smgMain.GameStarted = false;
@@ -137,8 +137,9 @@
             this.smgMain.Size = new System.Drawing.Size(345, 345);
             this.smgMain.TabIndex = 1;
             this.smgMain.Text = "smgMain";
-            this.smgMain.OnGridClicked += new SatoshiMines.UI.Controls.SatoshiMinesGrid.OnGridClickedHandler(this.smgMain_OnGridClicked);
+            this.smgMain.OnGridClicked += new Controls.SatoshiMinesGrid.OnGridClickedHandler(this.smgMain_OnGridClicked);
             this.smgMain.OnStartClicked += new System.EventHandler(this.smgMain_OnStartClicked);
+            this.smgMain.OnCashoutClicked += new System.EventHandler(this.smgMain_OnCashoutClicked);
             // 
             // MainForm
             // 
