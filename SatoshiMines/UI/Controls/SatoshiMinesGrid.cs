@@ -78,6 +78,21 @@ namespace SatoshiMines.UI.Controls
             }
 
             Invalidate();
+        }        
+
+        public void ShowHiddenMines(string mines)
+        {
+            foreach (var tile in _tiles)
+            {
+                if (mines.Contains(((int) tile.Guess).ToString()))
+                    tile.Type = TileType.Mine;
+                else
+                    tile.Type = TileType.Money;
+            }
+
+            Invalidate();
+
+            _timer.Start();
         }
 
         private void ResetTiles()
@@ -161,7 +176,6 @@ namespace SatoshiMines.UI.Controls
             base.OnPaint(e);
         }
 
-
         protected override void OnMouseClick(MouseEventArgs e)
         {
             if (!_gameStarted && _startRectangle.Contains(e.Location))
@@ -199,21 +213,6 @@ namespace SatoshiMines.UI.Controls
             }
 
             base.OnMouseMove(e);
-        }
-
-        public void ShowHiddenMines(string mines)
-        {                             
-            foreach (var tile in _tiles)
-            {
-                if (mines.Contains(((int)tile.Guess).ToString()))
-                    tile.Type = TileType.Mine;
-                else
-                    tile.Type = TileType.Money;
-            }
-
-            Invalidate();
-
-            _timer.Start();
-        }
+        } 
     }
 }
