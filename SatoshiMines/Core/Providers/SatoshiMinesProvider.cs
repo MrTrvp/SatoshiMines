@@ -25,7 +25,7 @@ namespace SatoshiMines.Core.Providers
         {
             if (!string.IsNullOrWhiteSpace(playerHash))
             {
-                return new Player(_client)
+                return new Player(_client, true)
                 {
                     PlayerHash = playerHash
                 };
@@ -38,7 +38,7 @@ namespace SatoshiMines.Core.Providers
             if (!playerHashMatch.Success)
                 return null;
 
-            return new Player(_client, true)
+            return new Player(_client)
             {
                 PlayerHash = playerHashMatch.Groups[1].Value
             };          

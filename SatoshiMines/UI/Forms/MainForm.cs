@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System;          
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SatoshiMines.Core.Models.Enums;
@@ -19,7 +18,7 @@ namespace SatoshiMines.UI.Forms
             _provider = new SatoshiMinesProvider();
             InitializeComponent();
 
-            cbMines.SelectedIndex = 0;                                                   
+            cbMines.SelectedIndex = 1;                                                   
         }
 
         private async void smgMain_OnGridClicked(Guess guess)
@@ -36,13 +35,17 @@ namespace SatoshiMines.UI.Forms
 
         private async void smgMain_OnStartClicked(object sender, EventArgs e)
         {
-            if (cbPlayerHash.Checked && !_currentPlayer.Custom)
+            if (cbPlayerHash.Checked && (_currentPlayer == null || _currentPlayer != null && !_currentPlayer.Custom))
             {
                 if (Regex.IsMatch(tbPlayerHash.Text, "^[a-zA-Z0-9]{40}$"))
                     _currentPlayer = await _provider.CreatePlayer(tbPlayerHash.Text);
                 else
+                {
+                    smgMain.GameStarted = false;
                     MessageBox.Show(@"Please enter a valid player hash to play.");
-            }                                                                     
+                    return;
+                }
+            }
             else if (_currentPlayer == null)
                 _currentPlayer = await _provider.CreatePlayer();
 
