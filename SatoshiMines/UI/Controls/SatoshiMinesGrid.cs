@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SatoshiMines.Core.Models.Enums;
+using SatoshiMines.UI.Models;
+using SatoshiMines.UI.Models.Enums;
 
 namespace SatoshiMines.UI.Controls
 {
@@ -28,7 +30,7 @@ namespace SatoshiMines.UI.Controls
 
         public SatoshiMinesGrid()
         {
-            _tiles = Enum.GetValues(typeof (Guess)).Cast<Guess>()
+            _tiles = Enum.GetValues(typeof(Guess)).Cast<Guess>()
                 .Select(g => new GuessTile(g)).ToArray();
 
             DoubleBuffered = true;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SatoshiMines.Core.Models.Enums;
@@ -18,7 +19,7 @@ namespace SatoshiMines.UI.Forms
             _provider = new SatoshiMinesProvider();
             InitializeComponent();
 
-            cbMines.SelectedIndex = 0;
+            cbMines.SelectedIndex = 0;                                                   
         }
 
         private async void smgMain_OnGridClicked(Guess guess)

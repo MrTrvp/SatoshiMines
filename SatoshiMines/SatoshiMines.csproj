@@ -61,11 +61,11 @@
     <Compile Include="Core\Providers\SatoshiMinesProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Controls\GuessTile.cs" />
+    <Compile Include="UI\Models\GuessTile.cs" />
     <Compile Include="UI\Controls\SatoshiMinesGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\TileType.cs" />
+    <Compile Include="UI\Models\Enums\TileType.cs" />
     <Compile Include="UI\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,9 +97,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Icon.ico" />
   </ItemGroup>

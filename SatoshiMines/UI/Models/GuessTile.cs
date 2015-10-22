@@ -1,7 +1,8 @@
 using System.Drawing;
 using SatoshiMines.Core.Models.Enums;
+using SatoshiMines.UI.Models.Enums;
 
-namespace SatoshiMines.UI.Controls
+namespace SatoshiMines.UI.Models
 {
     public class GuessTile
     {

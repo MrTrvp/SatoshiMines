@@ -1,4 +1,4 @@
-namespace SatoshiMines.UI.Controls
+namespace SatoshiMines.UI.Models.Enums
 {
     public enum TileType
     {
