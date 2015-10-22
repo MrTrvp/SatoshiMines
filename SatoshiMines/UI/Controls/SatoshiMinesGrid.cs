@@ -28,8 +28,8 @@ namespace SatoshiMines.UI.Controls
             }
         }
 
-        private readonly GuessTile[] _tiles;
         private readonly Timer _timer;
+        private readonly GuessTile[] _tiles; 
         private Rectangle _startRectangle;
         private Rectangle _cashOutRectangle;
 
