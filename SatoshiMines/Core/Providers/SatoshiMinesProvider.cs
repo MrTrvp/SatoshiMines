@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -38,9 +39,17 @@ namespace SatoshiMines.Core.Providers
             if (!playerHashMatch.Success)
                 return null;
 
+            response = await _client.GetAsync(location); 
+            var content = await response.Content.ReadAsStringAsync();
+
+            var bdValueMatch = Regex.Match(content, "bdval = '(\\d+)'");
+            if (!bdValueMatch.Success)
+                return null;
+
             return new Player(_client)
             {
-                PlayerHash = playerHashMatch.Groups[1].Value
+                PlayerHash = playerHashMatch.Groups[1].Value,
+                BdValue = bdValueMatch.Groups[1].Value
             };          
         }   
         

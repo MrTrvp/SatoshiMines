@@ -15,6 +15,8 @@ namespace SatoshiMines.Core.Providers
 
         public string PlayerHash { get; set; }
 
+        public string BdValue { get; set; }
+
 
         private readonly HttpClient _client;  
 
@@ -36,6 +38,7 @@ namespace SatoshiMines.Core.Providers
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
+                    {"bd", BdValue },
                     {"player_hash", PlayerHash},
                     {"bet", (bits / 10000.0).ToString(CultureInfo.InvariantCulture)},
                     {"num_mines", ((byte) mines).ToString()}

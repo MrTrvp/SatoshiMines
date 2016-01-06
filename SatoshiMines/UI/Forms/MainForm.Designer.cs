@@ -137,7 +137,7 @@
             this.smgMain.Size = new System.Drawing.Size(345, 345);
             this.smgMain.TabIndex = 1;
             this.smgMain.Text = "smgMain";
-            this.smgMain.OnGridClicked += new Controls.SatoshiMinesGrid.OnGridClickedHandler(this.smgMain_OnGridClicked);
+            this.smgMain.OnGridClicked += new SatoshiMines.UI.Controls.SatoshiMinesGrid.OnGridClickedHandler(this.smgMain_OnGridClicked);
             this.smgMain.OnStartClicked += new System.EventHandler(this.smgMain_OnStartClicked);
             this.smgMain.OnCashoutClicked += new System.EventHandler(this.smgMain_OnCashoutClicked);
             // 
